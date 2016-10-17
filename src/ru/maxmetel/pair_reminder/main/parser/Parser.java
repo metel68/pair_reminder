@@ -4,11 +4,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import ru.maxmetel.pair_reminder.main.model.Day;
 import ru.maxmetel.pair_reminder.main.model.Subject;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,10 +57,10 @@ public class Parser {
                 room = textSplitResult[2].trim();
                 group = textSplitResult[3].trim();
 
-                subject = new Subject(startTime, endTime, subjectName, teacher, room, group);
+                subject = new Subject(date, startTime, endTime, subjectName, teacher, room, group);
                 subjects.add(subject);
             }
-            day = new Day(date, subjects);
+            day = new Day(subjects);
             days.add(day);
         }
         return days;

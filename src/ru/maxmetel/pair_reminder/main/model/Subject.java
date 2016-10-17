@@ -6,17 +6,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Subject {
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-    private Date date;
+    private Date startTime;
+    private Date endTime;
     private String subjectName;
     private String teacher;
     private String room;
     private String group;
 
-    public Subject(String date, String startTime, String endTime, String subjectName, String teacher, String room, String group) {
+    public Subject(String date, String startTime, String endTime, String subjectName,
+                   String teacher, String room, String group) {
         try {
-            setDate(date, startTime, endTime);
+            setStartTime(date, startTime);
+            setEndTime(date, endTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -26,12 +29,22 @@ public class Subject {
         this.group = group;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setDate(String date, String startTime, String endTime) {
-        this.date = date;
+    public void setStartTime(String date, String startTime) throws ParseException {
+        String time = date + " " + startTime;
+        this.startTime = DATE_FORMAT.parse(time);
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String date, String endTime) throws ParseException {
+        String time = date + " " + endTime;
+        this.endTime = DATE_FORMAT.parse(time);
     }
 
     public String getSubjectName() {

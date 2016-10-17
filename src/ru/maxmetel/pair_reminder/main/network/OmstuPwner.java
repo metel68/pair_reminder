@@ -1,19 +1,14 @@
 package ru.maxmetel.pair_reminder.main.network;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import ru.maxmetel.pair_reminder.main.model.OmstuGroups;
+import ru.maxmetel.pair_reminder.main.model.OmstuSchedule;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-
-import ru.maxmetel.pair_reminder.main.model.OmstuGroups;
-import ru.maxmetel.pair_reminder.main.model.OmstuSchedule;
 
 public class OmstuPwner {
 	String url = "http://omgtu.ru/students/temp/ajax.php";
