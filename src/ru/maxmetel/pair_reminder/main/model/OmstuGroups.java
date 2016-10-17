@@ -1,4 +1,4 @@
-package ru.maxmetel.pair_reminder.model;
+package ru.maxmetel.pair_reminder.main.model;
 
 import java.util.List;
 
