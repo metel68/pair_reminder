@@ -1,3 +1,5 @@
+package ru.maxmetel.pair_reminder.model;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
