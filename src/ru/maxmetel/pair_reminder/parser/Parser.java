@@ -16,7 +16,6 @@ public class Parser {
 
     static public List<Day> parse(String html) throws IOException {
         List<Day> days = new ArrayList<>();
-        List<Subject> subjects = new ArrayList<>();
 
         Day day;
         Subject subject;
@@ -38,6 +37,7 @@ public class Parser {
             Elements rows = table.select("tr");
 
             date = rows.get(0).text().split(", ")[1];
+            List<Subject> subjects = new ArrayList<>();
 
             for (int j = 2; j < rows.size(); j++) {
                 Element row = rows.get(j);
