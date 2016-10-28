@@ -17,10 +17,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
+import ru.maxmetel.pair_reminder.model.Day;
 import ru.maxmetel.pair_reminder.model.Group;
 import ru.maxmetel.pair_reminder.model.Lecturer;
 import ru.maxmetel.pair_reminder.model.ListAnswer;
+import ru.maxmetel.pair_reminder.model.OmstuError;
 import ru.maxmetel.pair_reminder.model.OmstuSchedule;
+import ru.maxmetel.pair_reminder.model.Subject;
+import ru.maxmetel.pair_reminder.parser.Parser;
 
 public class OmstuPwner {
 	String url = "http://omgtu.ru/students/temp/ajax.php";
@@ -42,18 +46,31 @@ public class OmstuPwner {
 	}
 
 	public ListAnswer<Group> getGroups(ScheduleQuery query) {
-		Type ansType = new TypeToken<ListAnswer<Group>>(){}.getType();
+		Type ansType = new TypeToken<ListAnswer<Group>>() {
+		}.getType();
 		return (ListAnswer<Group>) getResponse(query, ScheduleActions.get_groups, ansType);
 	}
 
-	public OmstuSchedule getSchedule(ScheduleQuery query) {
-		return (OmstuSchedule) getResponse(query, ScheduleActions.get_schedule, OmstuSchedule.class);
+	public ListAnswer<Day> getSchedule(ScheduleQuery query) throws IOException {
+		OmstuSchedule raw = (OmstuSchedule) getResponse(query, ScheduleActions.get_schedule, OmstuSchedule.class);
+		List<Day> schedule = new ArrayList<>();
+		for (Day day : Parser.parse(raw.getHTML())) {
+			schedule.add(day);
+		}
+		return new ListAnswer<Day>(schedule, true, new OmstuError());
 	}
-	
-	public ListAnswer<Lecturer> getLecturers() {
-		Type listType = new TypeToken<ArrayList<Lecturer>>(){}.getType();
-		return (ListAnswer<Lecturer>) getResponse(new ScheduleQuery(), ScheduleActions.get_lecturers.getLecturers("П"), 
-				ListAnswer.class);
+
+	public ListAnswer<Lecturer> getLecturers(char letter) {
+		Type ansType = new TypeToken<ListAnswer<Lecturer>>() {
+		}.getType();
+		return (ListAnswer<Lecturer>) getResponse(new ScheduleQuery(),
+				ScheduleActions.get_lecturers.getLecturers(letter), ansType);
+	}
+
+	public ListAnswer<Lecturer> getLecturers(String name) {
+		List<Lecturer> list = (List<Lecturer>) getResponse(new ScheduleQuery(),
+				ScheduleActions.lecturer_autocomplete.getLecturers(name), List.class);
+		return new ListAnswer<Lecturer>(list, true, new OmstuError());
 	}
 
 	public InputStream fireRequest(ScheduleActions action, ScheduleQuery query)

@@ -1,11 +1,18 @@
 package ru.maxmetel.pair_reminder.model;
 
+import java.util.Iterator;
 import java.util.List;
 
-public class ListAnswer<T> {
+public class ListAnswer<T> implements Iterable<T>{
 	List<T> list;
 	Boolean success;
 	OmstuError error;
+	
+	public ListAnswer(String error) {
+		super();
+		this.error = new OmstuError(error);
+		this.success = false;
+	}
 	
 	public ListAnswer(List<T> list, Boolean success, OmstuError error) {
 		super();
@@ -21,5 +28,10 @@ public class ListAnswer<T> {
 	}
 	public OmstuError getError() {
 		return error;
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return list.iterator();
 	}
 }

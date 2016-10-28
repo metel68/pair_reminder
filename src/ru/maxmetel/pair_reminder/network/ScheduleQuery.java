@@ -9,9 +9,13 @@ import java.util.Map;
 public class ScheduleQuery {
 	private final Map<String,Object> params = new HashMap<String,Object>();
 	
-	public ScheduleQuery(String faculty, int course, int groupOid) {
-		this(faculty, course);
-		params.put("filter[groupOid]", groupOid);
+	public ScheduleQuery(boolean lecturerMode, int Oid) {
+		this();
+		if (lecturerMode) {
+			params.put("filter[lecturerOid]", Oid);
+		} else {
+			params.put("filter[groupOid]", Oid);
+		}
 	}
 	
 	public ScheduleQuery(String faculty, int course) {

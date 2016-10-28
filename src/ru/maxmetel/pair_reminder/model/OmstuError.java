@@ -7,4 +7,9 @@ public class OmstuError {
 		super();
 		this.msg = msg;
 	}
+
+	public OmstuError() {
+		super();
+		this.msg = "";
+	}
 }
