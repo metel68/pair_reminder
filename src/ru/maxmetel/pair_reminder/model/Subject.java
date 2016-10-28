@@ -75,4 +75,10 @@ public class Subject {
     public void setGroup(String group) {
         this.group = group;
     }
+
+	@Override
+	public String toString() {
+		return String.format("%s-%s, %s, %s, %s, %s]",
+				startTime, endTime, subjectName, teacher, room, group);
+	}
 }

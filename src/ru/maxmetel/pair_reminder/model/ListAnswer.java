@@ -2,12 +2,18 @@ package ru.maxmetel.pair_reminder.model;
 
 import java.util.List;
 
-public class OmstuGroups {
-	List<Group> list;
+public class ListAnswer<T> {
+	List<T> list;
 	Boolean success;
 	OmstuError error;
 	
-	public List<Group> getList() {
+	public ListAnswer(List<T> list, Boolean success, OmstuError error) {
+		super();
+		this.list = list;
+		this.success = success;
+		this.error = error;
+	}
+	public List<T> getList() {
 		return list;
 	}
 	public Boolean getSuccess() {
