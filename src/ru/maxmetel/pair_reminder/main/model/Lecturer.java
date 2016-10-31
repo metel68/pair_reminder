@@ -8,6 +8,11 @@ public class Lecturer {
 	String shortFIO;
 	Integer lecturerOid;
 
+	public Lecturer(Integer lecturerOid, String fio) {
+		super();
+		this.fio = fio;
+		this.lecturerOid = lecturerOid;
+	}
 	public String getChair() {
 		return chair;
 	}

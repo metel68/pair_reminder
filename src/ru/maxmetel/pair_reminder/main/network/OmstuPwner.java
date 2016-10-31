@@ -11,12 +11,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import ru.maxmetel.pair_reminder.main.model.Day;
+import ru.maxmetel.pair_reminder.main.model.DumbLecturer;
 import ru.maxmetel.pair_reminder.main.model.Group;
 import ru.maxmetel.pair_reminder.main.model.Lecturer;
 import ru.maxmetel.pair_reminder.main.model.ListAnswer;
@@ -66,8 +68,12 @@ public class OmstuPwner {
 	}
 
 	public ListAnswer<Lecturer> getLecturers(String name) {
-		List<Lecturer> list = (List<Lecturer>) getResponse(new ScheduleQuery(),
-				ScheduleActions.lecturer_autocomplete.getLecturers(name), List.class);
+		Type ansType = new TypeToken<List<DumbLecturer>>() {
+		}.getType();
+		List<DumbLecturer> dumbs = (List<DumbLecturer>) getResponse(new ScheduleQuery(),
+				ScheduleActions.lecturer_autocomplete.getLecturers(name), ansType);
+		List<Lecturer> list;
+		list = dumbs.stream().map((dumb) -> dumb.asLecturer()).collect(Collectors.toList());
 		return new ListAnswer<Lecturer>(list, true, new OmstuError());
 	}
 
