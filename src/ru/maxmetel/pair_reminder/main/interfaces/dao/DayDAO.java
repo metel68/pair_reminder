@@ -10,9 +10,9 @@ public interface DayDAO {
 
     public void update(Day day);
 
-    public Day save(Day day);
+    public void save(Day day);
 
-    public Day getById(int i);
+    public Day getById(int id);
 
     public List<Day> getAll();
 }

@@ -12,9 +12,9 @@ public interface SubjectDAO {
 
     public void update(Subject subject);
 
-    public Subject save(Subject subject);
+    public void save(Subject subject);
 
-    public Subject getById(int i);
+    public Subject getById(int id);
 
     public List<Subject> getAll();
 

@@ -1,32 +1,50 @@
 package ru.maxmetel.pair_reminder.main.model;
 
+import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
+@Table(name = "subjects")
 public class Subject {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "start_time")
     private Date startTime;
+    @Column(name = "end_time")
     private Date endTime;
+    @Column
     private String subjectName;
+    @Column
     private String teacher;
+    @Column
     private String room;
+    @Column(name = "subject_group")
     private String group;
 
     public Subject(String date, String startTime, String endTime, String subjectName,
                    String teacher, String room, String group) {
+        this(0, date, startTime, endTime, subjectName, teacher, room, group);
+    }
+
+    public Subject(int id, String date, String startTime, String endTime, String subjectName,
+                   String teacher, String room, String group) {
+        this.id = id;
+        this.subjectName = subjectName;
+        this.teacher = teacher;
+        this.room = room;
+        this.group = group;
         try {
             setStartTime(date, startTime);
             setEndTime(date, endTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.subjectName = subjectName;
-        this.teacher = teacher;
-        this.room = room;
-        this.group = group;
     }
 
     public Date getStartTime() {
@@ -45,6 +63,14 @@ public class Subject {
     public void setEndTime(String date, String endTime) throws ParseException {
         String time = date + " " + endTime;
         this.endTime = DATE_FORMAT.parse(time);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSubjectName() {
