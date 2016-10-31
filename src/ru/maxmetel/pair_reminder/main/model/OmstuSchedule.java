@@ -1,6 +1,4 @@
-package ru.maxmetel.pair_reminder.model;
-
-import java.util.List;
+package ru.maxmetel.pair_reminder.main.model;
 
 public class OmstuSchedule {
 	String html;

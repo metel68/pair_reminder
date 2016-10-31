@@ -1,4 +1,4 @@
-package ru.maxmetel.pair_reminder.rest.exceptions;
+package ru.maxmetel.pair_reminder.main.rest.exceptions;
 
 public class RestException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package ru.maxmetel.pair_reminder.model;
+package ru.maxmetel.pair_reminder.main.model;
 
 public class Lecturer {
 

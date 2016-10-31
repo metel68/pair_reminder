@@ -1,4 +1,4 @@
-package ru.maxmetel.pair_reminder.rest.resources;
+package ru.maxmetel.pair_reminder.main.rest.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -6,12 +6,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import ru.maxmetel.pair_reminder.model.Group;
-import ru.maxmetel.pair_reminder.model.Lecturer;
-import ru.maxmetel.pair_reminder.model.ListAnswer;
-import ru.maxmetel.pair_reminder.network.OmstuPwner;
-import ru.maxmetel.pair_reminder.network.ScheduleQuery;
-import ru.maxmetel.pair_reminder.rest.exceptions.RestException;
+import ru.maxmetel.pair_reminder.main.model.Lecturer;
+import ru.maxmetel.pair_reminder.main.model.ListAnswer;
+import ru.maxmetel.pair_reminder.main.network.OmstuPwner;
+import ru.maxmetel.pair_reminder.main.rest.exceptions.RestException;
 
 @Path("api/lecturers")
 public class LecturerResource {

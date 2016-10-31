@@ -1,4 +1,4 @@
-package ru.maxmetel.pair_reminder.network;
+package ru.maxmetel.pair_reminder.main.network;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

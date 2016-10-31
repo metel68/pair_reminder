@@ -1,4 +1,4 @@
-package ru.maxmetel.pair_reminder;
+package ru.maxmetel.pair_reminder.main;
 
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -7,7 +7,7 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class JarseyConfig extends ResourceConfig {
 	public JarseyConfig() {
-		packages("ru.maxmetel.pair_reminder.rest.resources", "ru.maxmetel.pair_reminder.rest.exceptions", "ru.maxmetel.pair_reminder.rest.filters");
+		packages("ru.maxmetel.pair_reminder.main.rest.resources", "ru.maxmetel.pair_reminder.main.rest.exceptions", "ru.maxmetel.pair_reminder.main.rest.filters");
 		// register(CORSFilter.class);
 	}
 }

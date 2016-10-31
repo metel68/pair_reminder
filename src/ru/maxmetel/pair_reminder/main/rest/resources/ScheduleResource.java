@@ -1,4 +1,4 @@
-package ru.maxmetel.pair_reminder.rest.resources;
+package ru.maxmetel.pair_reminder.main.rest.resources;
 
 import java.io.IOException;
 
@@ -8,12 +8,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import ru.maxmetel.pair_reminder.model.Day;
-import ru.maxmetel.pair_reminder.model.Group;
-import ru.maxmetel.pair_reminder.model.ListAnswer;
-import ru.maxmetel.pair_reminder.network.OmstuPwner;
-import ru.maxmetel.pair_reminder.network.ScheduleQuery;
-import ru.maxmetel.pair_reminder.rest.exceptions.RestException;
+import ru.maxmetel.pair_reminder.main.model.Day;
+import ru.maxmetel.pair_reminder.main.model.Group;
+import ru.maxmetel.pair_reminder.main.model.ListAnswer;
+import ru.maxmetel.pair_reminder.main.network.OmstuPwner;
+import ru.maxmetel.pair_reminder.main.network.ScheduleQuery;
+import ru.maxmetel.pair_reminder.main.rest.exceptions.RestException;
 
 @Path("api/lessons")
 public class ScheduleResource {
