@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvSubjects;
     @BindView(R.id.btn_get_subjects)
     Button btnGetSubjects;
+    @BindView(R.id.et_input_group)
+    EditText etInputGroup;
     private Handler handler = new Handler();
 
     @Override
@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    private void retrofitsCallback() {
+    private void retrofitsCallback(String searchGroup) {
         getApi()
-                .getResponse(SEARCH_STRING, new Callback<SearchResponse>() {
+                .getResponse(searchGroup, new Callback<SearchResponse>() {
                     @Override
                     public void success(SearchResponse response, Response response1) {
                         Calendar calendar = Calendar.getInstance();
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_get_subjects)
     public void onClick() {
         tvSubjects.setText("");
-        retrofitsCallback();
+        retrofitsCallback(etInputGroup.getText().toString());
     }
 
     private ScheduleApi getApi() {
