@@ -6,12 +6,18 @@ import ru.maxmetel.pair_reminder.main.model.Subject;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.ParseException;
+
 public class SubjectTest {
     private Subject subject;
 
     @Before
     public void setUp() {
-        subject = new Subject("18.10.2016", "17:00", "20:30", "a", "b", "c", "d");
+        try {
+			subject = new Subject("18.10.2016", "17:00", "20:30", "a", "b", "c", "d");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     }
 
     @Test

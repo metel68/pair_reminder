@@ -40,7 +40,7 @@ public class Main {
 		try {
 			ListAnswer<Day> days = pwner.getSchedule(query);
 			for (Day day : days) {
-				//System.out.println(day.getDate().toString());
+				System.out.println(day.getDate().toString());
 				for (Subject subj : day.getSubjects()) {
 					System.out.println(subj);
 				}

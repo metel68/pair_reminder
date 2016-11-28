@@ -8,6 +8,7 @@ import ru.maxmetel.pair_reminder.main.model.Day;
 import ru.maxmetel.pair_reminder.main.model.Subject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,11 +58,20 @@ public class Parser {
                 room = textSplitResult[2].trim();
                 group = textSplitResult[3].trim();
 
-                subject = new Subject(date, startTime, endTime, subjectName, teacher, room, group);
-                subjects.add(subject);
+                
+                try {
+					subject = new Subject(date, startTime, endTime, subjectName, teacher, room, group);
+	                subjects.add(subject);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
             }
-            day = new Day(subjects);
-            days.add(day);
+            try {
+				day = new Day(subjects, date);
+				days.add(day);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
         }
         return days;
     }
