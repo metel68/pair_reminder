@@ -19,11 +19,17 @@ import ru.maxmetel.pair_reminder.main.rest.exceptions.RestException;
 public class ScheduleResource {
 	@GET
 	@Produces("application/json")
-	public Response get(@QueryParam("group")Integer group, @QueryParam("lecturer")Integer lecturer)
+	public Response get(@QueryParam("group")Integer group, @QueryParam("lecturer")Integer lecturer, 
+			@QueryParam("date")String date)
 	{
 		try {
 			OmstuPwner pwner = new OmstuPwner();
-			ScheduleQuery query = new ScheduleQuery(group == null, group == null ? lecturer : group);
+			ScheduleQuery query = null;
+			if (date == null) {
+				query = new ScheduleQuery(group == null, group == null ? lecturer : group);
+			} else {
+				query = new ScheduleQuery(group == null, group == null ? lecturer : group, date);
+			}
 			ListAnswer<Day> schedule = pwner.getSchedule(query);
 			return Response.ok(schedule).build();	
 		} catch (RestException | IOException e) {
