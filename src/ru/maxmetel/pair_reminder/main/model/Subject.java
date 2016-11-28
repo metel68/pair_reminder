@@ -16,13 +16,10 @@ public class Subject {
     private String group;
 
     public Subject(String date, String startTime, String endTime, String subjectName,
-                   String teacher, String room, String group) {
-        try {
-            setStartTime(date, startTime);
-            setEndTime(date, endTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+                   String teacher, String room, String group) throws ParseException {
+
+    	setStartTime(date, startTime);
+        setEndTime(date, endTime);
         this.subjectName = subjectName;
         this.teacher = teacher;
         this.room = room;
