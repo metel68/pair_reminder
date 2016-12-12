@@ -44,6 +44,19 @@ public class OmstuPwner {
 		}
 		return null;
 	}
+	
+	public ListAnswer<String> getFaculties() {
+		String baseUri = "http://omgtu.ru/students/temp/";
+		String charset = "windows-1251";
+		List<String> faculties = new ArrayList<>();
+		try {
+			InputStream stream = this.fireRequest(ScheduleActions.empty, new ScheduleQuery(), baseUri);
+			faculties = Parser.parseFaculties(stream, charset, baseUri);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new ListAnswer<String>(faculties, true, new OmstuError());
+	}
 
 	public ListAnswer<Group> getGroups(ScheduleQuery query) {
 		Type ansType = new TypeToken<ListAnswer<Group>>() {
@@ -54,7 +67,7 @@ public class OmstuPwner {
 	public ListAnswer<Day> getSchedule(ScheduleQuery query) throws IOException {
 		OmstuSchedule raw = (OmstuSchedule) getResponse(query, ScheduleActions.get_schedule, OmstuSchedule.class);
 		List<Day> schedule = new ArrayList<>();
-		for (Day day : Parser.parse(raw.getHTML())) {
+		for (Day day : Parser.parseSchedule(raw.getHTML())) {
 			schedule.add(day);
 		}
 		return new ListAnswer<Day>(schedule, true, new OmstuError());
@@ -76,8 +89,13 @@ public class OmstuPwner {
 		list = dumbs.stream().map((dumb) -> dumb.asLecturer()).collect(Collectors.toList());
 		return new ListAnswer<Lecturer>(list, true, new OmstuError());
 	}
-
+	
 	public InputStream fireRequest(ScheduleActions action, ScheduleQuery query)
+			throws MalformedURLException, IOException {
+		return this.fireRequest(action, query, this.url);
+	}
+
+	public InputStream fireRequest(ScheduleActions action, ScheduleQuery query, String url)
 			throws MalformedURLException, IOException {
 		String queryString = action.toString();
 		HttpURLConnection connection = null;

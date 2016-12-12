@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ScheduleActions {
-	get_schedule, get_groups, get_lecturers, lecturer_autocomplete;
+	get_schedule, get_groups, get_lecturers, lecturer_autocomplete,empty;
 	
 	private final Map<String,Object> params = new HashMap<>();
 	
@@ -20,6 +20,7 @@ public enum ScheduleActions {
 	
 	@Override
 	public String toString() {
+		if (this.name() == "empty") return "";
 		if (this.params.isEmpty()) {
 			return String.format("?action=%s", this.name());
 		} else {

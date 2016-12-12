@@ -8,13 +8,14 @@ import ru.maxmetel.pair_reminder.main.model.Day;
 import ru.maxmetel.pair_reminder.main.model.Subject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
 
-    static public List<Day> parse(String html) throws IOException {
+    static public List<Day> parseSchedule(String html) throws IOException {
         List<Day> days = new ArrayList<>();
 
         Day day;
@@ -45,7 +46,6 @@ public class Parser {
                 Element timeColumn = cols.get(0);
                 Element otherInfoColumn = cols.get(1);
 
-
                 time = timeColumn.text().split(" - ");
                 startTime = time[0];
                 endTime = time[1];
@@ -74,6 +74,18 @@ public class Parser {
 			}
         }
         return days;
+    }
+    static public List<String> parseFaculties(InputStream html, String charsetName, String baseUri)
+    throws IOException {
+        List<String> out = new ArrayList<>();
+
+        Document doc = Jsoup.parse(html, charsetName, baseUri);
+
+        Elements faculties = doc.select("#faculty_list").select("option");
+        for (Element faculty : faculties) {             
+        	out.add(faculty.val());
+        }
+        return out;
     }
 }
 
