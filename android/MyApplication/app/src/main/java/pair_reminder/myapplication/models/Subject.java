@@ -1,4 +1,4 @@
-package pair_reminder.myapplication.model;
+package pair_reminder.myapplication.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,6 +10,8 @@ import java.util.Date;
 
 public class Subject {
 
+    public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     @SerializedName("startTime")
     @Expose
     private String startTime;
@@ -33,7 +35,7 @@ public class Subject {
      * @return The startTime
      */
     public String getStartTime() {
-        return startTime;
+        return TIME_FORMAT.format(new Date(startTime));
     }
 
     /**
@@ -47,7 +49,7 @@ public class Subject {
      * @return The endTime
      */
     public String getEndTime() {
-        return endTime;
+        return TIME_FORMAT.format(new Date(endTime));
     }
 
     /**
@@ -114,8 +116,7 @@ public class Subject {
     }
 
     public String getDate() {
-        final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        return dateFormat.format(new Date(getStartTime()));
+        return DATE_FORMAT.format(new Date(getStartTime()));
     }
 
     @Override

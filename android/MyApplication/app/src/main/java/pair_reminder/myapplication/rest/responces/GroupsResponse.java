@@ -1,15 +1,15 @@
-package pair_reminder.myapplication.model;
+package pair_reminder.myapplication.rest.responces;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import pair_reminder.myapplication.models.Group;
 
-public class SearchResponse {
+public class GroupsResponse {
 
     @SerializedName("list")
     @Expose
-    private java.util.List<SubjectsList> subjectsList = new ArrayList<>();
+    private java.util.List<Group> groups = null;
     @SerializedName("success")
     @Expose
     private Boolean success;
@@ -18,17 +18,17 @@ public class SearchResponse {
     private Error error;
 
     /**
-     * @return The subjectsList
+     * @return The groups
      */
-    public java.util.List<SubjectsList> getSubjectsList() {
-        return subjectsList;
+    public java.util.List<Group> getGroups() {
+        return groups;
     }
 
     /**
-     * @param subjectsList The subjectsList
+     * @param groups The groups
      */
-    public void setSubjectsList(java.util.List<SubjectsList> subjectsList) {
-        this.subjectsList = subjectsList;
+    public void setGroups(java.util.List<Group> groups) {
+        this.groups = groups;
     }
 
     /**

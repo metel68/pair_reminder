@@ -1,90 +1,102 @@
 package pair_reminder.myapplication;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import pair_reminder.myapplication.API.ScheduleApi;
-import pair_reminder.myapplication.model.SearchResponse;
-import pair_reminder.myapplication.model.Subject;
-import pair_reminder.myapplication.model.SubjectsList;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import pair_reminder.myapplication.ui.ScheduleFragment;
+import pair_reminder.myapplication.ui.SchedulePickerContainerFragment;
+import pair_reminder.myapplication.ui.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+    public static final String GROUP = "444";
+    private static final SimpleDateFormat dateFormal = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+    private String dateString;
 
-    public static final String SEARCH_STRING = "444";
-    private static final String BASE_URL = "http://10.0.2.2:9998";
-    @BindView(R.id.tv_subjects)
-    TextView tvSubjects;
-    @BindView(R.id.btn_get_subjects)
-    Button btnGetSubjects;
-    @BindView(R.id.et_input_group)
-    EditText etInputGroup;
-    private Handler handler = new Handler();
+    private ViewPagerAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        dateString = dateFormal.format(Calendar.getInstance().getTime());
+
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void retrofitsCallback(String searchGroup) {
-        getApi()
-                .getResponse(searchGroup, new Callback<SearchResponse>() {
-                    @Override
-                    public void success(SearchResponse response, Response response1) {
-                        Calendar calendar = Calendar.getInstance();
-                        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                        String currentDate = dateFormat.format(calendar.getTime());
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-                        List<SubjectsList> subjectsList = response.getSubjectsList();
+        ScheduleFragment oneDaySchedule = ScheduleFragment.newInstance(GROUP, dateString);
+        ScheduleFragment weekSchedule = ScheduleFragment.newInstance(GROUP);
 
-                        for (int i = 0; i < subjectsList.size(); i++) {
-                            List<Subject> subjects = subjectsList.get(i).getSubjects();
-                            for (int j = 0; j < subjects.size(); j++) {
-                                String subjectDate = subjects.get(j).getDate();
-                                if (subjectDate.equals(currentDate)) {
-                                    tvSubjects.append(subjects.get(j).toString());
-                                }
-                            }
-                        }
-                    }
+        adapter.addFragment(oneDaySchedule, "Today");
+        adapter.addFragment(weekSchedule, "Week");
+        adapter.addFragment(new SchedulePickerContainerFragment(), "Schedule picker");
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        System.out.println(error.toString());
-                    }
-                });
+        viewPager.setAdapter(adapter);
     }
 
-    @OnClick(R.id.btn_get_subjects)
-    public void onClick() {
-        tvSubjects.setText("");
-        retrofitsCallback(etInputGroup.getText().toString());
-    }
 
-    private ScheduleApi getApi() {
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> fragments = new ArrayList<>();
+        private final List<String> titles = new ArrayList<>();
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
 
-        return restAdapter.create(ScheduleApi.class);
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            fragments.add(fragment);
+            titles.add(title);
+        }
+
+        public void replaceFragment(int position, Fragment fragment) {
+            fragments.set(position, fragment);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles.get(position);
+        }
     }
 }
